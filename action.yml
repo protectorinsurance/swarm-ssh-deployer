@@ -1,0 +1,30 @@
+name: 'ghcr-swarm-ssh-deployer'
+description: 'Upgrades a service in swarm with new image from GHCR through SSH'
+inputs:
+  service-name:
+    description: 'Name of the service to upgrade'
+    required: true
+  image:
+    description: 'Name of the image to deploy'
+    required: true
+  private-key:
+    description: 'Filename to the ssh private key'
+    required: true
+  username:
+    description: 'Username to establish SSH session'
+    required: true
+  hostname:
+    description: 'SSH Hostname'
+    required: true
+  port:
+    description: 'The SSH port to use'
+    required: true
+  ghcr-username: 
+    description: 'The GHCR username'
+    required: true
+  ghcr-token:
+    description: The GHCR token used to read the image to deploy
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
