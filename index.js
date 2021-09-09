@@ -21,7 +21,7 @@ async function run() {
     conn
       .on("ready", () => {
         console.log("Client :: ready");
-        conn.exec(deployCommand, (err, stream) => {
+        conn.exec('uptime', (err, stream) => {
           if (err) core.setFailed(err);
           stream
             .on("close", (code, signal) => {
