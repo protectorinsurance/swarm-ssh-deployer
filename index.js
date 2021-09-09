@@ -22,7 +22,7 @@ async function run() {
     conn
       .on("ready", () => {
         console.log("Client :: ready");
-        conn.exec(`ls`, (err, stream) => {
+        conn.exec(`ls -la`, (err, stream) => {
           if (err) core.setFailed(err);
           stream
             .on("close", (code, signal) => {
