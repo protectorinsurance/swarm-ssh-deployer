@@ -42,7 +42,7 @@ async function run() {
               console.log("STDOUT: " + data);
             })
             .stderr.on("data", (data) => {
-              core.setFailed(data);
+              core.info(data);
             });
         });
       })
