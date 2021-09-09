@@ -30,7 +30,7 @@ async function run() {
       .on("ready", () => {
         console.log("Client :: ready");
         conn.exec(deployCommand, (err, stream) => {
-          if (err) core.setFailed(err);
+          if (err) console.log(err)
           stream
             .on("close", (code, signal) => {
               console.log(
