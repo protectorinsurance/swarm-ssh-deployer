@@ -7,6 +7,9 @@ inputs:
   image:
     description: 'Name of the image to deploy'
     required: true
+  image-tag:
+    description: 'Name of image tag to deploy'
+    required: true
   private-key:
     description: 'Filename to the ssh private key'
     required: true
