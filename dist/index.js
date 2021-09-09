@@ -20,7 +20,7 @@ async function run() {
     const port = core.getInput("port");
     const ghcrUsername = core.getInput("ghcr-username");
     const ghcrToken = core.getInput("ghcr-token");
-    const deployCommand = `"docker login -u ${ghcrUsername} -p ${ghcrToken} ghcr.io && docker service update --with-registry-auth --image ${image}:${imageTag} ${serviceName}"`;
+    const deployCommand = `docker login -u ${ghcrUsername} -p ${ghcrToken} ghcr.io && docker service update --with-registry-auth --image ${image}:${imageTag} ${serviceName}`;
 
     core.info("Starting to deploy");
 
