@@ -21,7 +21,6 @@ async function run() {
     const ghcrUsername = core.getInput("ghcr-username");
     const ghcrToken = core.getInput("ghcr-token");
     const deployCommand = `docker login -u ${ghcrUsername} -p ${ghcrToken} ghcr.io && docker service update --with-registry-auth --image ${image}:${imageTag} ${serviceName}`;
-    //const deployCommand = `docker login -u ${ghcrUsername} -p ${ghcrToken} ghcr.io`;
 
     core.info("Starting to deploy " + deployCommand );
 
@@ -30,7 +29,10 @@ async function run() {
       .on("ready", () => {
         console.log("Client :: ready");
         conn.exec(deployCommand, (err, stream) => {
-          if (err) console.log(err);
+          if (err) {
+            console.log(err);
+            core.setFailed(err);
+          }
           stream
             .on("close", (code, signal) => {
               console.log(
