@@ -28,6 +28,9 @@ async function run() {
           }
           stream
             .on("close", (code, signal) => {
+              if(code != 0){
+                core.setFailed("Exit code was not 0");
+              }
               console.log(
                 "Stream :: close :: code: " + code + ", signal: " + signal
               );
