@@ -8,19 +8,11 @@ require('./sourcemap-register.js');module.exports =
 const core = __nccwpck_require__(2186);
 const { readFileSync } = __nccwpck_require__(5747);
 const { Client } = __nccwpck_require__(5869);
+const parseInputs = __nccwpck_require__(2303)
 
 async function run() {
   try {
-    const serviceName = core.getInput("service-name");
-    const image = core.getInput("image");
-    const imageTag = core.getInput("image-tag");
-    const privateKey = core.getInput("private-key");
-    const username = core.getInput("username");
-    const hostname = core.getInput("hostname");
-    const port = core.getInput("port");
-    const ghcrUsername = core.getInput("ghcr-username");
-    const ghcrToken = core.getInput("ghcr-token");
-    const deployCommand = `docker login -u ${ghcrUsername} -p ${ghcrToken} ghcr.io && docker service update --with-registry-auth --image ${image}:${imageTag} ${serviceName}`;
+    const {privateKey, username, hostname, port, deployCommand} = parseInputs();
 
     core.info("Starting to deploy " + deployCommand );
 
@@ -35,7 +27,7 @@ async function run() {
           }
           stream
             .on("close", (code, signal) => {
-              if(code != 0){
+              if(code !== 0){
                 core.setFailed("Exit code was not 0");
               }
               console.log(
@@ -1736,6 +1728,16 @@ module.exports = {
       hash: bcrypt_hash,
       pbkdf: bcrypt_pbkdf
 };
+
+
+/***/ }),
+
+/***/ 4137:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const binding = __nccwpck_require__(4240);
+
+module.exports = binding.getCPUInfo;
 
 
 /***/ }),
@@ -11302,7 +11304,7 @@ const crypto = __nccwpck_require__(6417);
 
 let cpuInfo;
 try {
-  cpuInfo = __nccwpck_require__(7295)();
+  cpuInfo = __nccwpck_require__(4137)();
 } catch {}
 
 const { bindingAvailable } = __nccwpck_require__(5708);
@@ -22736,6 +22738,13 @@ nacl.setPRNG = function(fn) {
 
 /***/ }),
 
+/***/ 4240:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+module.exports = require(__nccwpck_require__.ab + "build/Release/cpufeatures.node")
+
+/***/ }),
+
 /***/ 9623:
 /***/ ((module) => {
 
@@ -22744,10 +22753,10 @@ module.exports = eval("require")("./crypto/build/Release/sshcrypto.node");
 
 /***/ }),
 
-/***/ 7295:
+/***/ 2303:
 /***/ ((module) => {
 
-module.exports = eval("require")("cpu-features");
+module.exports = eval("require")("parse-inputs");
 
 
 /***/ }),
