@@ -1,19 +1,11 @@
 const core = require("@actions/core");
 const { readFileSync } = require("fs");
 const { Client } = require("ssh2");
+const parseInputs = require('parse-inputs')
 
 async function run() {
   try {
-    const serviceName = core.getInput("service-name");
-    const image = core.getInput("image");
-    const imageTag = core.getInput("image-tag");
-    const privateKey = core.getInput("private-key");
-    const username = core.getInput("username");
-    const hostname = core.getInput("hostname");
-    const port = core.getInput("port");
-    const ghcrUsername = core.getInput("ghcr-username");
-    const ghcrToken = core.getInput("ghcr-token");
-    const deployCommand = `docker login -u ${ghcrUsername} -p ${ghcrToken} ghcr.io && docker service update --with-registry-auth --image ${image}:${imageTag} ${serviceName}`;
+    const {privateKey, username, hostname, port, deployCommand} = parseInputs();
 
     core.info("Starting to deploy " + deployCommand );
 
@@ -28,7 +20,7 @@ async function run() {
           }
           stream
             .on("close", (code, signal) => {
-              if(code != 0){
+              if(code !== 0){
                 core.setFailed("Exit code was not 0");
               }
               console.log(

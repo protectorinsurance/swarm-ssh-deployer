@@ -26,8 +26,12 @@ inputs:
     description: 'The GHCR username'
     required: true
   ghcr-token:
-    description: The GHCR token used to read the image to deploy
+    description: 'The GHCR token used to read the image to deploy'
     required: true
+  args:
+    description: 'Additional arguments for deploy command'
+    required: false
+    default: ''
 runs:
   using: 'node12'
   main: 'dist/index.js'
