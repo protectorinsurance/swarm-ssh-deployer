@@ -14,13 +14,21 @@ async function run() {
     const serviceName = core.getInput("service-name");
     const image = core.getInput("image");
     const imageTag = core.getInput("image-tag");
+    const imageId = core.getInput("image-id");
     const privateKey = core.getInput("private-key");
     const username = core.getInput("username");
     const hostname = core.getInput("hostname");
     const port = core.getInput("port");
     const ghcrUsername = core.getInput("ghcr-username");
     const ghcrToken = core.getInput("ghcr-token");
-    const deployCommand = `docker login -u ${ghcrUsername} -p ${ghcrToken} ghcr.io && docker service update --with-registry-auth --image ${image}:${imageTag} ${serviceName}`;
+    //syntax on argument for image depends on what type of tag it is
+    let imageArgument = `${image}:${imageTag}`
+    if (imageId) {
+      //the imageId is set we use this instead of tag
+      imageArgument = `${image}@sha256:${imageId}`
+    }
+
+    const deployCommand = `docker login -u ${ghcrUsername} -p ${ghcrToken} ghcr.io && docker service update --with-registry-auth --image ${imageArgument} ${serviceName}`;
 
     core.info("Starting to deploy " + deployCommand );
 
