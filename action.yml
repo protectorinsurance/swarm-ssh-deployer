@@ -10,6 +10,9 @@ inputs:
   image-tag:
     description: 'Name of image tag to deploy'
     required: true
+  image-id:
+    description: 'Image id (reference) as the full sha256 digest of the image (takes precedence over image-tag when used)'
+    required: false
   private-key:
     description: 'Filename to the ssh private key'
     required: true
